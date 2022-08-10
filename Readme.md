@@ -4,10 +4,9 @@
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
 
-
 # Grid for Blazor - Conditional Formatting
 
-The Blazor Grid allows you to customize appearance of UI elements based on custom conditions. 
+The [Blazor Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) allows you to customize appearance of UI elements based on custom conditions. 
 
 This example customizes grid cells and rows in the following way.
 
