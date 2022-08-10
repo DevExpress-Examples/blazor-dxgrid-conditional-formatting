@@ -23,7 +23,7 @@ This example customizes grid cells and rows in the following way.
 <!-- default file list -->
 ## Files to Look At
 
-[Grid.razor](./CS/GridConditionalFormatting/Pages/Grid.razor)
+[Index.razor](./CS/GridConditionalFormatting/Pages/Index.razor)
 
 ## Documentation
 
