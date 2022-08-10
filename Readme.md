@@ -4,21 +4,21 @@
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
 
-
 # Grid for Blazor - Conditional Formatting
 
-The Blazor Grid allows you to customize appearance of UI elements based on custom conditions. 
+The [Blazor Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) allows you to customize appearance of UI elements based on custom conditions. 
 
 This example customizes grid cells and rows in the following way.
 
-* Data cells with UnitsInStock < 10 are highlighted.
-* Data rows with UnitsInStock = 0 are strikethrough.
-* UnitPrice values are bold and colored depending on the following condition: 
-		* if a price is lower then the average price, the font is red;  
-		* if a price is higher then the average price, the font is green.
-	The average price is calculated in the grid's summary item (DxGridSummaryItem).
+* Data cells with `UnitsInStock < 10` are highlighted.
+* Data rows with `UnitsInStock = 0` are strikethrough.
+* `UnitPrice` values are bold and colored depending on the following condition: 
+  * If a price is lower then the average price, the font is red.
+  * If a price is higher then the average price, the font is green.
+	
+	The average price is calculated in the grid's summary item ([DxGridSummaryItem](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGridSummaryItem)).
 
-![Grid - Custom Element Appearance](images/grids.png)
+![Grid - Custom Element Appearance](images/grid.png)
 
 <!-- default file list -->
 ## Files to Look At

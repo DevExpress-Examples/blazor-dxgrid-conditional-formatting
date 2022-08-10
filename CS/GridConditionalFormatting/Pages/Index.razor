@@ -1,0 +1,69 @@
+﻿@page "/"
+
+@using GridConditionalFormatting.Northwind
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<NorthwindContext> NorthwindContextFactory
+@implements IDisposable
+
+<DxGrid Data="GridDataSource"
+        CustomizeElement="OnCustomizeElement">
+    <Columns>
+        <DxGridDataColumn FieldName="ProductName" Name="ProductName" />
+        <DxGridDataColumn FieldName="UnitPrice" Name="UnitPrice" DisplayFormat="c2"/>
+        <DxGridDataColumn FieldName="QuantityPerUnit" />
+        <DxGridDataColumn FieldName="UnitsInStock" Name="UnitsInStock"/>
+    </Columns>
+     <TotalSummary>
+        <DxGridSummaryItem SummaryType="GridSummaryItemType.Avg" FieldName="UnitPrice"/>
+    </TotalSummary>
+</DxGrid>
+
+@code {
+    IEnumerable<object> GridDataSource { get; set; }
+    NorthwindContext Northwind { get; set; }
+
+    protected override void OnInitialized() {
+        Northwind = NorthwindContextFactory.CreateDbContext();
+        GridDataSource = Northwind.Products
+            .ToList();
+    }
+
+    void OnCustomizeElement(GridCustomizeElementEventArgs e) {
+        if (e.ElementType == GridElementType.DataRow 
+            && (short)e.Grid.GetRowValue(e.VisibleIndex, "UnitsInStock") == 0) {
+            e.CssClass = "strikethrough-item";
+        }
+
+        decimal summaryItemValue = (System.Decimal)e.Grid.GetTotalSummaryValue(e.Grid.GetTotalSummaryItems().First());
+
+        if (e.ElementType == GridElementType.DataCell
+            && e.Column.Name == "UnitPrice"
+            && Convert.ToDecimal(e.Grid.GetRowValue(e.VisibleIndex, "UnitPrice")) <= summaryItemValue) {
+                    e.Style = "color: red; font-weight: bold";
+        }
+
+        if (e.ElementType == GridElementType.DataCell
+            && e.Column.Name == "UnitPrice"
+            && Convert.ToDecimal(e.Grid.GetRowValue(e.VisibleIndex, "UnitPrice")) > summaryItemValue) {
+                e.Style = "color: green; font-weight: bold";
+        }
+
+        if (e.ElementType == GridElementType.DataCell 
+            && e.Column.Name == "UnitsInStock" 
+            && (System.Int16)e.Grid.GetRowValue(e.VisibleIndex, "UnitsInStock") != 0
+            && (System.Int16)e.Grid.GetRowValue(e.VisibleIndex, "UnitsInStock") <= 10) {
+                e.Style = "background-color: #edc2c2";
+        }
+
+    }
+
+    public void Dispose() {
+        Northwind?.Dispose();
+    }
+}
+
+<style>
+    .strikethrough-item {
+        text-decoration: line-through;
+    }
+</style>
