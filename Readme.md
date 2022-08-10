@@ -11,9 +11,9 @@ The Blazor Grid allows you to customize appearance of UI elements based on custo
 
 This example customizes grid cells and rows in the following way.
 
-* Data cells with UnitsInStock < 10 are highlighted.
-* Data rows with UnitsInStock = 0 are strikethrough.
-* UnitPrice values are bold and colored depending on the following condition: 
+* Data cells with `UnitsInStock < 10` are highlighted.
+* Data rows with `UnitsInStock = 0` are strikethrough.
+* `UnitPrice` values are bold and colored depending on the following condition: 
   * If a price is lower then the average price, the font is red.
   * If a price is higher then the average price, the font is green.
 	
