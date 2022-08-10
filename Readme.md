@@ -14,9 +14,10 @@ This example customizes grid cells and rows in the following way.
 * Data cells with UnitsInStock < 10 are highlighted.
 * Data rows with UnitsInStock = 0 are strikethrough.
 * UnitPrice values are bold and colored depending on the following condition: 
-		* if a price is lower then the average price, the font is red;  
-		* if a price is higher then the average price, the font is green.
-	The average price is calculated in the grid's summary item (DxGridSummaryItem).
+  * If a price is lower then the average price, the font is red.
+  * If a price is higher then the average price, the font is green.
+	
+	The average price is calculated in the grid's summary item ([DxGridSummaryItem](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGridSummaryItem)).
 
 ![Grid - Custom Element Appearance](images/grids.png)
 
