@@ -19,7 +19,7 @@ This example customizes grid cells and rows in the following way.
 	
 	The average price is calculated in the grid's summary item ([DxGridSummaryItem](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGridSummaryItem)).
 
-![Grid - Custom Element Appearance](images/grids.png)
+![Grid - Custom Element Appearance](images/grid.png)
 
 <!-- default file list -->
 ## Files to Look At
