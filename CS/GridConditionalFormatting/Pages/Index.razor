@@ -10,17 +10,15 @@
     .arrows {
         position: relative;
     }
-
-        .arrows::before {
-            position: absolute;
-            content: ' ';
-            display: block;
-            width: 16px;
-            height: 16px;
-            background: url(images/icons.png);
-            background-position: var(--pos);
-        }
-
+    .arrows::before {
+        position: absolute;
+        content: ' ';
+        display: block;
+        width: 16px;
+        height: 16px;
+        background: url(images/icons.png);
+        background-position: var(--pos);
+    }
     .custom-color {
         background: var(--bg);
     }
@@ -52,8 +50,6 @@
         Northwind = NorthwindContextFactory.CreateDbContext();
         GridDataSource = await Northwind.Invoices.ToListAsync();
     }
-
-
 
     void OnCustomizeElement(GridCustomizeElementEventArgs e) {
         if (e.ElementType == GridElementType.DataCell) {
