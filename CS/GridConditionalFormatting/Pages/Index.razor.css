@@ -24,7 +24,7 @@
     background-position: -54px -36px;
 }
 
-::deep .hightUnitPrice {
+::deep .highUnitPrice {
     color: red;
     font-weight: bold
 }
@@ -32,8 +32,4 @@
 ::deep .lowUnitPrice {
     color: green;
     font-weight: bold
-}
-
-.my-grid {
-    width: 950px;
 }
