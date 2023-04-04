@@ -30,6 +30,7 @@ A cell displays one of the following arrows based on its value:
 ## Files to Review
 
 * [Index.razor](./CS/GridConditionalFormatting/Pages/Index.razor)
+* [Index.razor.css](./CS/GridConditionalFormatting/Pages/Index.razor.css)
 
 ## Documentation
 
