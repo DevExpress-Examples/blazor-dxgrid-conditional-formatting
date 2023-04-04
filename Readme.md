@@ -17,16 +17,21 @@ The code example uses [summary items](https://docs.devexpress.com/Blazor/DevExpr
 Cells that display positive values are colored green.
 
 **Unit Price Column**  
-All cell values are bold. If a cell value is lower than the column average value, the cell's font color is green; otherwise, the font color is red.
+All cell values are bold. If a cell value is lower than the column average value, the cell's font color is green; otherwise, it is red.
+
 
 **Quantity Column**  
-If a cell value is lower than the column average value, the cell is colored in a shade of red; otherwise, the cell is colored in a shade of blue. The more a cell value differs from the average value, the brighter the cell color. If a cell value is equal to the average value, the cell color is white.
+If a cell value is lower than the average column value, the cell is colored in a shade of red; otherwise, it is a shade of blue. The more a cell value differs from the average value, the brighter the color. If a cell value is equal to the average value, the color is white.
+
 
 **Total Column**  
 A cell displays one of the following arrows based on its value:
-* A red pointing down arrow - for small values.
-* A yellow pointing left arrow - for medium values.
-* A green pointing up arrow - for large values.
+* A red arrow pointing down - small values.
+
+* A yellow arrow pointing left - medium values.
+
+* A green arrow pointing up - large values.
+
 
 ## Files to Review
 
