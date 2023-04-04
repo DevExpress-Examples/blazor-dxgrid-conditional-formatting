@@ -6,11 +6,12 @@
 
 # Grid for Blazor - Customize cell appearance based on custom conditions
 
-The example demonstrates how to customize appearance of the [DevExpress Blazor Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) elements based on custom conditions.
+The example demonstrates how to customize appearance of [DevExpress Blazor Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) elements based on custom conditions.
+
 
 ![Grid - Customize Element Appearance](images/grid.png)
 
-The example code uses [summary items](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGridSummaryItem) to calculate minimum, maximum, and average column values. Based on cell and summary item values, the [CustomizeElement](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.CustomizeElement) event handler changes cell appearance in the following columns:
+The code example uses [summary items](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGridSummaryItem) to calculate minimum, maximum, and average column values. Based on cell and summary item values, a [CustomizeElement](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.CustomizeElement) event handler changes cell appearance in the following columns:
 
 **Discount Column**  
 Cells that display positive values are colored green.
