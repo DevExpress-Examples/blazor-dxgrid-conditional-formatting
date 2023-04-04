@@ -2,64 +2,102 @@
 
 @using GridConditionalFormatting.Northwind
 @using Microsoft.EntityFrameworkCore
+@using System.Drawing;
 @inject IDbContextFactory<NorthwindContext> NorthwindContextFactory
 @implements IDisposable
 
-<DxGrid Data="GridDataSource"
-        CustomizeElement="OnCustomizeElement">
-    <Columns>
-        <DxGridDataColumn FieldName="ProductName" Name="ProductName" />
-        <DxGridDataColumn FieldName="UnitPrice" Name="UnitPrice" DisplayFormat="c2"/>
-        <DxGridDataColumn FieldName="QuantityPerUnit" />
-        <DxGridDataColumn FieldName="UnitsInStock" Name="UnitsInStock"/>
-    </Columns>
-     <TotalSummary>
-        <DxGridSummaryItem SummaryType="GridSummaryItemType.Avg" FieldName="UnitPrice"/>
-    </TotalSummary>
-</DxGrid>
+<div>
+    <DxGrid Data="GridDataSource"
+            CustomizeElement="OnCustomizeElement">
+        <Columns>
+            <DxGridDataColumn FieldName="CustomerName" />
+            <DxGridDataColumn FieldName="UnitPrice" DisplayFormat="c" />
+            <DxGridDataColumn FieldName="Discount" DisplayFormat="P" />
+            <DxGridDataColumn FieldName="Quantity" />
+            <DxGridDataColumn FieldName="Total" UnboundType="GridUnboundColumnType.Decimal" UnboundExpression="UnitPrice * Quantity" DisplayFormat="c" />
+        </Columns>
+        <TotalSummary>
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Avg" FieldName="UnitPrice" Name="AvgUnitPrice" />
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Min" FieldName="Quantity" Name="MinQuantity" Visible=false />
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Max" FieldName="Quantity" Name="MaxQuantity" Visible=false />
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Min" FieldName="Total" Name="MinTotal" Visible=false />
+            <DxGridSummaryItem SummaryType="GridSummaryItemType.Max" FieldName="Total" Name="MaxTotal" />
+        </TotalSummary>
+    </DxGrid>
+</div>
 
 @code {
-    IEnumerable<object> GridDataSource { get; set; }
+    IEnumerable<Invoice> GridDataSource { get; set; }
     NorthwindContext Northwind { get; set; }
 
-    protected override void OnInitialized() {
+    protected override async Task OnInitializedAsync() {
         Northwind = NorthwindContextFactory.CreateDbContext();
-        GridDataSource = Northwind.Products
-            .ToList();
+        GridDataSource = await Northwind.Invoices.ToListAsync();
     }
 
     void OnCustomizeElement(GridCustomizeElementEventArgs e) {
-        if(e.ElementType == GridElementType.DataRow) {
-            var unitsValue = Convert.ToInt16(e.Grid.GetRowValue(e.VisibleIndex, "UnitsInStock"));
-            if(unitsValue == 0)
-                e.CssClass = "strikethrough-item";
-        }
-        
-        if(e.ElementType == GridElementType.DataCell) {
-            if(e.Column.Name == "UnitPrice") {
-                var summaryItem = e.Grid.GetTotalSummaryItems().Where(i => i.FieldName == "UnitPrice").First();
-                var unitPriceTotal = Convert.ToDecimal(e.Grid.GetTotalSummaryValue(summaryItem));
-                var unitPriceValue = Convert.ToDecimal(e.Grid.GetRowValue(e.VisibleIndex, "UnitPrice"));
-            
-                e.Style = unitPriceValue > unitPriceTotal 
-                    ? "color: green; font-weight: bold"
-                    : "color: red; font-weight: bold";
+        if (e.ElementType == GridElementType.DataCell) {
+            var dataColumn = (IGridDataColumn)e.Column;
+            switch (dataColumn.FieldName) {
+                case "UnitPrice":
+                    var averageUnitPrice= Convert.ToDecimal(GetSummaryValue("AvgUnitPrice", e.Grid));
+                    var unitPriceValue = Convert.ToDecimal(e.Grid.GetRowValue(e.VisibleIndex, "UnitPrice"));
+                    if (unitPriceValue < averageUnitPrice)
+                        e.CssClass = "lowUnitPrice";
+                    else
+                        e.CssClass = "highUnitPrice";
+                    break;
+                case "Discount":
+                    var discountValue = Convert.ToDouble(e.Grid.GetRowValue(e.VisibleIndex, "Discount"));
+                    if (discountValue > 0)
+                        e.Style = "background-color: #90ee90";
+                    break;
+                case "Total":
+                    int minTotal = Convert.ToInt32(GetSummaryValue("MinTotal", e.Grid));
+                    int maxTotal = Convert.ToInt32(GetSummaryValue("MaxTotal", e.Grid));                 
+                    int totalValue = Convert.ToInt32(e.Grid.GetRowValue(e.VisibleIndex, "Total"));
+                    e.CssClass = "arrow " + GetArrowCssClass(totalValue, minTotal, maxTotal);
+                    break;
+                case "Quantity":
+                    int minQuantity = Convert.ToInt32(GetSummaryValue("MinQuantity", e.Grid));
+                    int maxQuantity = Convert.ToInt32(GetSummaryValue("MaxQuantity", e.Grid));                   
+                    int quantityValue = Convert.ToInt32(e.Grid.GetRowValue(e.VisibleIndex, "Quantity"));
+                    Color color = GetCellColor(quantityValue, minQuantity, maxQuantity);
+                    e.Style = "background: " + ColorTranslator.ToHtml(color);
+                    break;
             }
-            if(e.Column.Name == "UnitsInStock") {
-                var unitsValue = Convert.ToInt16(e.Grid.GetRowValue(e.VisibleIndex, "UnitsInStock"));
-                if(unitsValue > 0 && unitsValue <= 10)
-                    e.Style = "background-color: #edc2c2";
-            }
         }
+    }
+
+    object GetSummaryValue(string summaryName, IGrid grid) {
+        var summaryItem = grid.GetTotalSummaryItems().Where(i => i.Name == summaryName).First();
+        return grid.GetTotalSummaryValue(summaryItem);
+    }
+
+    String GetArrowCssClass(int value, int min, int max) {
+        int firstRangeEnd = min + (max - min) / 3;
+        int secondRangeEnd = max - (max - min) / 3;
+        if (value <= firstRangeEnd)
+            return "arrow1";
+        if (value <= secondRangeEnd)
+            return "arrow2";
+        return "arrow3";
+    }
+
+    Color GetCellColor(int value, int min, int max) {
+        int average = (max + min) / 2;
+        int range = max - min;
+        double maxBrightness = 0.5;
+        double distanceToMean = Math.Abs(average - value) / ((double)range / 2);
+        double ratio = 1 - maxBrightness * distanceToMean;
+        if (value < average)
+            return Color.FromArgb(255, Convert.ToInt32(255 * ratio), Convert.ToInt32(255 * ratio));
+        if (value == average)
+            return Color.FromArgb(255, 255, 255);
+        return Color.FromArgb(Convert.ToInt32(255 * ratio), Convert.ToInt32(255 * ratio), 255);
     }
 
     public void Dispose() {
         Northwind?.Dispose();
     }
 }
-
-<style>
-    .strikethrough-item {
-        text-decoration: line-through;
-    }
-</style>

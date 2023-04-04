@@ -1,0 +1,35 @@
+﻿::deep .arrow {
+    position: relative;
+}
+
+::deep .arrow::before {
+    position: absolute;
+    content: ' ';
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(images/icons.png);
+    background-position: -144px -36px;
+}
+
+::deep .arrow1::before {
+    background-position: -144px -36px;
+}
+
+::deep .arrow2::before {
+    background-position: -90px -36px;
+}
+
+::deep .arrow3::before {
+    background-position: -54px -36px;
+}
+
+::deep .highUnitPrice {
+    color: red;
+    font-weight: bold
+}
+
+::deep .lowUnitPrice {
+    color: green;
+    font-weight: bold
+}

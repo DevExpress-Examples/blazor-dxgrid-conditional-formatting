@@ -4,27 +4,40 @@
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
 
-# Grid for Blazor - Customize the appearance of elements including row and cell values based on custom conditions
+# Grid for Blazor - Customize cell appearance based on custom conditions
 
-The [Blazor Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) allows you to customize the appearance of individual UI elements based on custom conditions (conditional formatting).
+The example demonstrates how to customize appearance of [DevExpress Blazor Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid) elements based on custom conditions.
 
-This example customizes the appearance of Blazor Grid cells/rows in the following manner:
- 
-* Highlighted data cells: `UnitsInStock < 10`. 
-* Strikethrough data rows: `UnitsInStock = 0`. 
-* `UnitPrice` values are set to bold and colored based on the following conditions:  
-  * If a price is lower than the average price, the font is set to red. 
-  * If a price is higher than the average price, the font is set to green. 
-	
-    The average price is calculated within the Blazor Grid's summary item ([DxGridSummaryItem](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGridSummaryItem)).
 
-![Grid - Custom Element Appearance](images/grid.png)
+![Grid - Customize Element Appearance](images/grid.png)
 
-<!-- default file list -->
+The code example uses [summary items](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGridSummaryItem) to calculate minimum, maximum, and average column values. Based on cell and summary item values, a [CustomizeElement](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.CustomizeElement) event handler changes cell appearance in the following columns:
+
+**Discount Column**  
+Cells that display positive values are colored green.
+
+**Unit Price Column**  
+All cell values are bold. If a cell value is lower than the column average value, the cell's font color is green; otherwise, it is red.
+
+
+**Quantity Column**  
+If a cell value is lower than the average column value, the cell is colored in a shade of red; otherwise, it is a shade of blue. The more a cell value differs from the average value, the brighter the color. If a cell value is equal to the average value, the color is white.
+
+
+**Total Column**  
+A cell displays one of the following arrows based on its value:
+* A red arrow pointing down - small values.
+
+* A yellow arrow pointing left - medium values.
+
+* A green arrow pointing up - large values.
+
+
 ## Files to Review
 
-[Index.razor](./CS/GridConditionalFormatting/Pages/Index.razor)
+* [Index.razor](./CS/GridConditionalFormatting/Pages/Index.razor)
+* [Index.razor.css](./CS/GridConditionalFormatting/Pages/Index.razor.css)
 
 ## Documentation
 
-[Custom Element Appearance](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.CustomizeElement)
+* [Custom Element Appearance](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxGrid.CustomizeElement)
